@@ -1,6 +1,6 @@
 import {HttpParams} from '@angular/common/http';
 
-export class PaginationFilter {
+export abstract class PaginationFilter {
   page?: number;
   pageSize?: number;
   orderBy?: string;

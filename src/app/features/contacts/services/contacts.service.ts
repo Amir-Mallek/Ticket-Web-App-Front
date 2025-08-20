@@ -5,16 +5,17 @@ import {ContactFilter} from '../models/dtos/contact-filter.dto';
 import {Contact} from '../models/contact.model';
 import {Observable} from 'rxjs';
 import {UpdateContactDto} from '../models/dtos/update-contact.dto';
+import {CreateContactDto} from '../models/dtos/create-contact.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
-  private readonly baseUrl = `${environment.apiUrl}/Contacts`;
+  private readonly baseUrl = `${environment.apiUrl}/Contact`;
 
   constructor(private http: HttpClient) {}
 
-  getContacts(filter: ContactFilter): Observable<Contact[]> {
+  getContacts(filter: ContactFilter = new ContactFilter()): Observable<Contact[]> {
     const params = filter.to_params();
     return this.http.get<Contact[]>(this.baseUrl, {params});
   }
@@ -23,7 +24,7 @@ export class ContactsService {
     return this.http.get<Contact>(`${this.baseUrl}/${id}`);
   }
 
-  createContact(contact: Contact): Observable<string> {
+  createContact(contact: CreateContactDto): Observable<string> {
     return this.http.post<string>(this.baseUrl, contact);
   }
 

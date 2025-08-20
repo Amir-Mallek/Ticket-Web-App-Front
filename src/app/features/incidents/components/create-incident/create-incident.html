@@ -1,0 +1,243 @@
+<!-- create-incident.html -->
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-6">
+      <div class="card border-0 shadow-lg">
+        <!-- Header -->
+        <div class="card-header bg-gradient-primary text-white border-0 py-3">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-plus-circle-fill me-2 fs-5"></i>
+            <h5 class="mb-0 fw-bold">Create New Incident</h5>
+          </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        @if (isLoadingClients) {
+          <div class="position-relative">
+            <div class="card-body text-center py-5">
+              <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading clients...</span>
+              </div>
+              <p class="text-muted mb-0">Loading client data...</p>
+            </div>
+          </div>
+        } @else {
+          <!-- Form Content -->
+          <div class="card-body p-4">
+            <form [formGroup]="incidentForm" (ngSubmit)="submit()" class="needs-validation" novalidate>
+
+              <!-- Title Field -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold">
+                  <i class="bi bi-card-heading me-1"></i>Title *
+                </label>
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  [class.is-invalid]="isFieldInvalid('title')"
+                  formControlName="title"
+                  placeholder="Enter incident title...">
+                @if (isFieldInvalid('title')) {
+                  <div class="invalid-feedback">
+                    {{ getFieldError('title') }}
+                  </div>
+                }
+              </div>
+
+              <div class="row">
+                <!-- Client Type -->
+                <div class="col-md-6 mb-4">
+                  <label class="form-label fw-semibold">
+                    <i class="bi bi-people-fill me-1"></i>Client Type *
+                  </label>
+                  <select
+                    class="form-select form-select-lg"
+                    [class.is-invalid]="isFieldInvalid('clientType')"
+                    (change)="onClientTypeChange($event)">
+                    <option value="" disabled selected>Choose client type...</option>
+                    <option [value]="1">
+                      <i class="bi bi-person-fill"></i> Contact
+                    </option>
+                    <option [value]="2">
+                      <i class="bi bi-building"></i> Account
+                    </option>
+                  </select>
+                  @if (isFieldInvalid('clientType')) {
+                    <div class="invalid-feedback">
+                      Client type is required
+                    </div>
+                  }
+                </div>
+
+                <!-- Client Selection -->
+                <div class="col-md-6 mb-4">
+                  <label class="form-label fw-semibold">
+                    <i class="bi bi-person-check-fill me-1"></i>Client *
+                  </label>
+                  <select
+                    class="form-select form-select-lg"
+                    [class.is-invalid]="isFieldInvalid('clientId')"
+                    formControlName="clientId"
+                    [disabled]="!selectedClientType">
+                    <option value="" disabled selected>
+                      {{ selectedClientType ? 'Select client...' : 'Choose client type first' }}
+                    </option>
+
+                    @if (selectedClientType == ClientType.Contact) {
+                      @for (contact of contacts; track contact.id) {
+                        <option [value]="contact.id">
+                          <i class="bi bi-person-circle"></i> {{contact.fullName}}
+                        </option>
+                      }
+                    } @else if (selectedClientType == ClientType.Account) {
+                      @for (account of accounts; track account.id) {
+                        <option [value]="account.id">
+                          <i class="bi bi-building"></i> {{account.name}}
+                        </option>
+                      }
+                    }
+                  </select>
+                  @if (isFieldInvalid('clientId')) {
+                    <div class="invalid-feedback">
+                      Client selection is required
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="row">
+                <!-- Priority -->
+                <div class="col-md-4 mb-4">
+                  <label class="form-label fw-semibold">
+                    <i class="bi bi-flag-fill me-1"></i>Priority *
+                  </label>
+                  <select
+                    class="form-select"
+                    (change)="onPriorityChange($event)">
+                    @for (option of priorityOptions; track option.value) {
+                      <option [value]="option.value" [selected]="option.value === Priority.Normal">
+                        {{option.label}}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                <!-- Origin -->
+                <div class="col-md-4 mb-4">
+                  <label class="form-label fw-semibold">
+                    <i class="bi bi-arrow-right-circle-fill me-1"></i>Origin *
+                  </label>
+                  <select
+                    class="form-select"
+                    (change)="onOriginChange($event)">
+                    @for (option of originOptions; track option.value) {
+                      <option [value]="option.value" [selected]="option.value === CaseOrigin.Web">
+                        {{option.label}}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-4 mb-4">
+                  <label class="form-label fw-semibold">
+                    <i class="bi bi-info-circle-fill me-1"></i>Status *
+                  </label>
+                  <select
+                    class="form-select"
+                    (change)="onStatusChange($event)">
+                    @for (option of statusOptions; track option.value) {
+                      <option [value]="option.value" [selected]="option.value === Status.WaitingForDetails">
+                        {{option.label}}
+                      </option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold">
+                  <i class="bi bi-chat-text me-1"></i>Description
+                  <small class="text-muted">(Optional)</small>
+                </label>
+                <textarea
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('description')"
+                  formControlName="description"
+                  rows="4"
+                  placeholder="Provide additional details about the incident..."
+                  maxlength="1000"></textarea>
+                <div class="form-text d-flex justify-content-between">
+                  <span>Provide additional context or details</span>
+                  <span class="text-muted">
+                  {{ incidentForm.get('description')?.value?.length || 0 }}/1000
+                </span>
+                </div>
+                @if (isFieldInvalid('description')) {
+                  <div class="invalid-feedback">
+                    {{ getFieldError('description') }}
+                  </div>
+                }
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex gap-3 justify-content-end pt-3 border-top">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary px-4"
+                  (click)="incidentForm.reset(); initializeForm(); selectedClientType = null"
+                  [disabled]="isLoading">
+                  <i class="bi bi-arrow-clockwise me-1"></i>Reset
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4 position-relative"
+                  [disabled]="incidentForm.invalid || isLoading">
+
+                  @if (isLoading) {
+                    <!-- Loading Spinner -->
+                    <span class="spinner-border spinner-border-sm me-2" role="status">
+                      <span class="visually-hidden">Creating...</span>
+                    </span>
+                  } @else {
+                    <!-- Button Content -->
+                    <i class="bi bi-plus-circle me-1"></i>
+                  }
+                  {{ isLoading ? 'Creating...' : 'Create Incident' }}
+                </button>
+              </div>
+
+            </form>
+          </div>
+        }
+      </div>
+
+      <!-- Form Validation Summary (only show when form is invalid and submitted) -->
+      @if (incidentForm.invalid && incidentForm.touched) {
+        <div class="alert alert-danger mt-3" role="alert">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Please correct the following errors:</strong>
+          </div>
+          <ul class="mb-0 mt-2">
+            @if (isFieldInvalid('title')) {
+              <li>{{ getFieldError('title') }}</li>
+            }
+            @if (isFieldInvalid('clientType')) {
+              <li>Client type is required</li>
+            }
+            @if (isFieldInvalid('clientId')) {
+              <li>Client selection is required</li>
+            }
+            @if (isFieldInvalid('description')) {
+              <li>{{ getFieldError('description') }}</li>
+            }
+          </ul>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

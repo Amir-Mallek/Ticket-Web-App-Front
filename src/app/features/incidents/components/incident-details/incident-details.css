@@ -1,0 +1,335 @@
+/* incident-details.css */
+
+.bg-gradient-info {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+}
+
+.card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.card-header {
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* Info display components */
+.info-display {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f8f9fa;
+  min-height: 50px;
+}
+
+.info-display:last-child {
+  border-bottom: none;
+}
+
+.info-display i {
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.info-display-card {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  min-height: 50px;
+}
+
+.info-display-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Background classes for status/priority cards */
+.bg-danger-subtle {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: rgba(220, 53, 69, 0.2);
+}
+
+.bg-warning-subtle {
+  background-color: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.2);
+}
+
+.bg-success-subtle {
+  background-color: rgba(25, 135, 84, 0.1);
+  border-color: rgba(25, 135, 84, 0.2);
+}
+
+.bg-primary-subtle {
+  background-color: rgba(13, 110, 253, 0.1);
+  border-color: rgba(13, 110, 253, 0.2);
+}
+
+.bg-info-subtle {
+  background-color: rgba(13, 202, 240, 0.1);
+  border-color: rgba(13, 202, 240, 0.2);
+}
+
+.bg-secondary-subtle {
+  background-color: rgba(108, 117, 125, 0.1);
+  border-color: rgba(108, 117, 125, 0.2);
+}
+
+/* Badge styles */
+.badge-outline-secondary {
+  background-color: transparent;
+  border: 1px solid #6c757d;
+  color: #6c757d;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+}
+
+/* Form styling */
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #17a2b8;
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.15);
+}
+
+.form-label {
+  color: #495057;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-label.fw-semibold {
+  color: #343a40;
+}
+
+.form-label i {
+  color: #17a2b8;
+}
+
+.form-label.small {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+/* Button styling */
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+  border-width: 2px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #218838 0%, #1aa085 100%);
+  box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+}
+
+.btn-success:disabled {
+  background: linear-gradient(135deg, #94d3a2 0%, #88c999 100%);
+  box-shadow: none;
+}
+
+.btn-outline-primary {
+  border-color: #17a2b8;
+  color: #17a2b8;
+}
+
+.btn-outline-primary:hover {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: white;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.btn-light {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #17a2b8;
+  font-weight: 600;
+}
+
+.btn-light:hover {
+  background-color: white;
+  color: #138496;
+  transform: translateY(-1px);
+}
+
+.btn-light.active {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* Description display */
+.description-display {
+  margin-top: 8px;
+}
+
+.description-display .bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.empty-description .text-muted {
+  font-style: italic;
+}
+
+/* Section headers */
+h4 {
+  font-weight: 700;
+  color: #2d3436;
+}
+
+h4 i {
+  font-size: 1.1em;
+}
+
+.border-bottom {
+  border-bottom: 2px solid #e9ecef !important;
+}
+
+/* Loading states */
+.spinner-border-sm {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* Form validation */
+.is-invalid {
+  border-color: #dc3545;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.invalid-feedback {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-text {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 4px;
+}
+
+/* Focus states for accessibility */
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible {
+  outline: 2px solid #17a2b8;
+  outline-offset: 2px;
+}
+
+/* Animation for edit mode transition */
+.card-body {
+  transition: all 0.3s ease;
+}
+
+/* Hover effects for interactive elements */
+.info-display:hover {
+  background-color: rgba(23, 162, 184, 0.05);
+  border-radius: 8px;
+}
+
+/* Enhanced badge styling */
+.badge {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Loading overlay for form */
+.form-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.form-loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  border-radius: 12px;
+}
+
+/* Success animation for saved changes */
+.save-success {
+  animation: saveSuccess 0.5s ease;
+}
+
+@keyframes saveSuccess {
+  0% {
+    background-color: rgba(25, 135, 84, 0.1);
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(25, 135, 84, 0.2);
+    transform: scale(1.01);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+/* Custom scrollbar for description textarea */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #17a2b8;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #138496;
+}
+

@@ -1,0 +1,84 @@
+<div class="container p-4 bg-white rounded shadow-sm max-w-lg">
+  <!-- Messages -->
+  @if (submitMessage) {
+    <div class="alert"
+         [ngClass]="{'alert-success': submitMessageType === 'success', 'alert-danger': submitMessageType === 'error'}"
+         role="alert">
+      {{ submitMessage }}
+      <button type="button" class="btn-close ms-auto" (click)="clearMessages()"></button>
+    </div>
+  }
+
+  <form [formGroup]="accountForm" (ngSubmit)="submitForm()">
+    <div class="mb-3">
+      <label class="form-label">Name *</label>
+      <input type="text" formControlName="name" class="form-control"
+             [class.is-invalid]="hasFieldError('name', 'required') || hasFieldError('name', 'minlength')">
+      @if (hasFieldError('name', 'required') || hasFieldError('name', 'minlength')) {
+        <div class="invalid-feedback">
+          {{ getFieldErrorMessage('name') }}
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" formControlName="email" class="form-control"
+             [class.is-invalid]="hasFieldError('email', 'email')">
+      @if (hasFieldError('email', 'email')) {
+        <div class="invalid-feedback">
+          {{ getFieldErrorMessage('email') }}
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Phone</label>
+      <input type="tel" formControlName="phone" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Country</label>
+      <input type="text" formControlName="country" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">City</label>
+      <input type="text" formControlName="city" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Street</label>
+      <input type="text" formControlName="street" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Postal Code</label>
+      <input type="text" formControlName="postalCode" class="form-control">
+    </div>
+
+    <!-- Primary Contact -->
+    <div class="mb-3">
+      <label class="form-label">Primary Contact</label>
+      <select formControlName="primaryContactId" class="form-select">
+        @for (contact of availableContacts; track contact.id) {
+          <option [value]="contact.id">
+            {{ contact.fullName }}
+            @if (contact.email) {
+              <span class="text-muted">
+                ({{ contact.email }})
+              </span>
+            }
+          </option>
+        }
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100" [disabled]="isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      }
+      {{ isSubmitting ? 'Creating Account...' : 'Create Account' }}
+    </button>
+  </form>
+</div>

@@ -1,0 +1,140 @@
+<div class="container p-4 bg-white rounded shadow-sm max-w-lg">
+  <!-- Success/Error Messages -->
+  @if (submitMessage) {
+    <div class="alert"
+         [ngClass]="{
+           'alert-success': submitMessageType === 'success',
+           'alert-danger': submitMessageType === 'error'
+         }"
+         role="alert">
+      <i class="bi"
+         [ngClass]="{
+           'bi-check-circle-fill': submitMessageType === 'success',
+           'bi-exclamation-triangle-fill': submitMessageType === 'error'
+         }"></i>
+      {{ submitMessage }}
+      <button type="button" class="btn-close ms-auto" (click)="clearMessages()"></button>
+    </div>
+  }
+
+  <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
+    <!-- First Name -->
+    <div class="mb-3">
+      <label class="form-label">First Name *</label>
+      <input
+        type="text"
+        formControlName="firstName"
+        class="form-control"
+        [class.is-invalid]="hasFieldError('firstName', 'required') || hasFieldError('firstName', 'minlength')"
+        placeholder="Enter first name">
+      @if (contactForm.get('firstName')?.touched && contactForm.get('firstName')?.invalid) {
+        <div class="invalid-feedback">
+          {{ getFieldErrorMessage('firstName') }}
+        </div>
+      }
+    </div>
+
+    <!-- Last Name -->
+    <div class="mb-3">
+      <label class="form-label">Last Name *</label>
+      <input
+        type="text"
+        formControlName="lastName"
+        class="form-control"
+        [class.is-invalid]="hasFieldError('lastName', 'required') || hasFieldError('lastName', 'minlength')"
+        placeholder="Enter last name">
+      @if (contactForm.get('lastName')?.touched && contactForm.get('lastName')?.invalid) {
+        <div class="invalid-feedback">
+          {{ getFieldErrorMessage('lastName') }}
+        </div>
+      }
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control"
+        [class.is-invalid]="hasFieldError('email', 'email')"
+        placeholder="Enter email">
+      @if (contactForm.get('email')?.touched && contactForm.get('email')?.invalid) {
+        <div class="invalid-feedback">
+          {{ getFieldErrorMessage('email') }}
+        </div>
+      }
+    </div>
+
+    <!-- Phone -->
+    <div class="mb-3">
+      <label class="form-label">Phone</label>
+      <input
+        type="tel"
+        formControlName="phone"
+        class="form-control"
+        placeholder="Enter phone number">
+    </div>
+
+    <!-- Parent Client Type -->
+    <div class="mb-3">
+      <label class="form-label">Parent Client Type</label>
+      <select
+        formControlName="parentClientType"
+        class="form-select">
+        <option [ngValue]="ClientType.Contact">Contact</option>
+        <option [ngValue]="ClientType.Account">Account</option>
+      </select>
+    </div>
+
+    <!-- Parent Client -->
+    @if (contactForm.value.parentClientType) {
+      <div class="mb-3">
+        @if (contactForm.get('parentClientType')?.value === ClientType.Contact) {
+          <label class="form-label">Parent Contact</label>
+          <select
+            formControlName="parentClientId"
+            class="form-select">
+            @for (contact of availableContacts; track contact.id) {
+              <option [value]="contact.id">
+                {{ contact.fullName }}
+                @if (contact.email) {
+                  ({{ contact.email }})
+                }
+              </option>
+            }
+          </select>
+        } @else if (contactForm.get('parentClientType')?.value === ClientType.Account) {
+          <label class="form-label">Parent Account</label>
+          <select
+            formControlName="parentClientId"
+            class="form-select">
+            <option value="">-- Select Account --</option>
+            @for (account of availableAccounts; track account.id) {
+              <option [value]="account.id">
+                {{ account.name }}
+                @if (account.address) {
+                  ({{ account.address }})
+                }
+              </option>
+            }
+          </select>
+        }
+      </div>
+    }
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn btn-primary w-100 position-relative"
+      [disabled]="isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Creating Contact...
+      } @else {
+        <i class="bi bi-person-plus me-2"></i>
+        Create Contact
+      }
+    </button>
+  </form>
+</div>

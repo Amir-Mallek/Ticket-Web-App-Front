@@ -7,7 +7,6 @@ export interface CreateIncidentDto {
   title: string;
   clientId: number;
   clientType: ClientType;
-  agentId: string;
   priority: Priority;
   origin: CaseOrigin;
   status: Status;
